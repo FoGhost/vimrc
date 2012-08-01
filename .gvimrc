@@ -1,26 +1,16 @@
-set vb t_vb= "关闭响铃和闪屏
-set guioptions-=T "gui的工具栏
-"set guioptions-=r "gui的右边的滑动条
-"set guioptions-=L "gui的左边的滑动条
-set guioptions-=m "gui的菜单
+set showtabline=2    " タブを常に表示
+set transparency=5   " 透明度
+set imdisable        " IME OFF
+set guioptions-=T    " ツールバー非表示
+set antialias        " アンチエイリアス
+set tabstop=2        " タブサイズ
+set number           " 行番号表示
+set nobackup         " バックアップなし
+set visualbell t_vb= " ビープ音なし
 
-set nocul
+colorscheme wombat  " カラースキーマ
 
-""""""""""""""""""""""""""""
-" themes
-""""""""""""""""""""""""""""
-" system
-" colorscheme desert
-colorscheme slate
-hi PreProc guibg=grey15 guifg=#f3dead
+"set columns=100      " 横幅
+"set lines=35         " 行数
 
-" solarized
-" set background=dark
-" set background=light
-" colorscheme solarized
-
-" railscasts
-" colorscheme railscasts
-
-" tomorrow
-" colorscheme Tomorrow-Night-Eighties
+set nowrapscan       " 検索をファイルの先頭へループしない

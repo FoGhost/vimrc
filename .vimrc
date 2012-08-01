@@ -1,166 +1,252 @@
+filetype off
+set nocompatible  " no vi compatibility.
+
+" Plugins " {{{
 " git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 " BundleInstall
-
-set nocompatible               " be iMproved
-filetype off                   " required!
 
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-" let Vundle manage Vundle
-" required!
-Bundle 'gmarik/vundle'
+" " Programming
+Bundle "jQuery"
+Bundle "rails.vim"
+Bundle "tpope/vim-haml"
+Bundle "kchmck/vim-coffee-script.git"
 
-" My Bundles here:
+" " Snippets
+Bundle "http://github.com/gmarik/snipmate.vim.git"
+"
+" " Syntax highlight
+" Bundle "cucumber.zip"
+" Bundle "Markdown"
+"
+" " Git integration
+" Bundle "git.zip"
+Bundle "fugitive.vim"
+"
+" " (HT|X)ml tool
+" Bundle "ragtag.vim"
 
-Bundle 'Lokaltog/vim-powerline'
-Bundle 'Align'
-Bundle 'tpope/vim-rails'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'msanders/snipmate.vim'
-Bundle 'scrooloose/nerdtree'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'hallison/vim-markdown'
-Bundle 'groenewege/vim-less'
-Bundle 'bbommarito/vim-slim'
-Bundle 'tomtom/tcomment_vim'
-Bundle 'vim-scripts/copypath.vim'
-" fuzzy_filder
-Bundle 'L9'
-Bundle 'FuzzyFinder'
+" " Utility
+Bundle "repeat.vim"
+Bundle "surround.vim"
+Bundle "Align"
+Bundle "Shougo/neocomplcache"
+Bundle "Shougo/unite.vim"
+Bundle "Shougo/vimshell"
+let g:vimshell_editor_command='vim'
+Bundle "Shougo/vimfiler"
 
-Bundle 'wincent/Command-T'
-" cd ~/.vim/bundle/Command-T/ruby/ ; ruby extconf.rb ; make
-" themes
-" Bundle 'altercation/vim-colors-solarized'
-" Bundle 'tomasr/molokai'
-Bundle 'jpo/vim-railscasts-theme'
-Bundle 'jasonkuhrt/Tomorrow-Theme'
+Bundle "Shougo/vimproc"
+Bundle "fuenor/qfixhowm"
+let qfixmemo_dir           = '~/.dropbox-two/Dropbox/howm'
+let qfixmemo_filename      = '%Y/%m/%Y-%m-%d-%H%M%S.txt'
+let qfixmemo_fileencoding  = 'utf-8'
+let qfixmemo_fileformat    = 'unix'
+let qfixmemo_filetype      = 'qfix_memo'
 
-" 设置编码
-set encoding=utf-8
-" 设置文件编码
-set fenc=utf-8
-" 字体
-set guifont=monaco:h14
-" 不自动换行
-set nowrap
+" " }}} Plugins
 
-set nobackup
-set nowritebackup
+filetype plugin indent  on  " Automatically detect file types.
 
-"语法高亮
+" Maplearder
+:let mapleader = ","
+
+" NeoComplcache " {{{
+
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+
+" Use neocomplcache.
+let g:neocomplcache_enable_at_startup = 1
+
+" Use smartcase.
+let g:neocomplcache_enable_smart_case = 1
+
+" Use camel case completion.
+" let g:neocomplcache_enable_camel_case_completion = 1
+"
+" Use underbar completion.
+let g:neocomplcache_enable_underbar_completion = 1
+
+" Set minimum syntax keyword length.
+let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+
+" Disable auto popup
+" let g:neocomplcache_disable_auto_complete = 1
+
+" Print caching percent in statusline.
+" let g:NeoComplCache_CachingPercentInStatusline = 1
+
+" Define dictionary.
+let g:neocomplcache_dictionary_filetype_lists = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions',
+    \ 'scala' : $DOTVIM.'/dict/scala.dict',
+    \ 'ruby' : $DOTVIM.'/dict/ruby.dict'
+    \ }
+
+" snippet ファイルの保存先
+let g:neocomplcache_snippets_dir='~/.vim/snippets'
+
+" Define keyword.
+if !exists('g:NeoComplCache_KeywordPatterns')
+  let g:neocomplcache_keyword_patterns = {}
+endif
+let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+imap <C-k>     <Plug>(neocomplcache_snippets_expand)
+smap <C-k>     <Plug>(neocomplcache_snippets_expand)
+inoremap <expr><C-g>     neocomplcache#undo_completion()
+inoremap <expr><C-l>     neocomplcache#complete_common_string()
+
+" SuperTab like snippets behavior.
+imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+
+" Popup on <Tab>.
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : "\<C-x>\<C-u>"
+function! s:check_back_space()"{{{
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1] =~ '\s'
+endfunction"}}
+" Auto complete to common string and show available variants (if any).
+inoremap <expr><C-l> neocomplcache#complete_common_string()
+" Highlighting first candidate.
+let g:neocomplcache_enable_auto_select = 1
+inoremap <expr><C-h> neocomplcache#smart_close_popup().“\<C-h>”
+inoremap <expr><BS> neocomplcache#smart_close_popup().“\<C-h>”
+
+" Choose candidate with <CR>.
+inoremap <expr><CR> neocomplcache#smart_close_popup() . “\<CR>”
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplcache#close_popup()
+inoremap <expr><C-e>  neocomplcache#cancel_popup()
+
+" AutoComplPop like behavior.
+" let g:neocomplcache_enable_auto_select = 1
+"
+" Shell like behavior(not recommended).
+" set completeopt+=longest
+" let g:neocomplcache_enable_auto_select = 1
+" let g:neocomplcache_disable_auto_complete = 1
+" inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<TAB>"
+" inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+
+" " Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplcache_omni_patterns')
+  let g:neocomplcache_omni_patterns = {}
+endif
+let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+" autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
+let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+
+inoremap pumvisible() ? neocomplcache#close_popup().“\X\” : “\X\”
+
+" " }}} NeoComplcache
+
+ " Minibuffer Explorer Settings
+let g:miniBufExplMapWindowNavVim = 1
+let g:miniBufExplMapWindowNavArrows = 1
+let g:miniBufExplMapCTabSwitchBufs = 1
+let g:miniBufExplModSelTarget = 1
+
+ " alt+n or alt+p to navigate between entries in QuickFix
+map <silent> <m-p> :cp <cr>
+map <silent> <m-n> :cn <cr>
+
+" Key map timeout
+let timeoutlen             = 2000
+
+" Change which file opens after executing :Rails command
+let g:rails_default_file   = 'config/database.yml'
+
+" NERDTree setting
+let NERDTreeIgnore=['\.o$','\.bak$','\.pyc$'] " Hide .o，.bak file
+let NERDTreeWinPos='left'
+
+" Latex Suite settings
+set grepprg=grep\ -nH\ $*
+set shellslash
+let g:tex_flavor = 'latex'
+let g:Tex_DefaultTargetFormat = 'pdf'
+let g:Tex_FormatDependency_ps = 'dvi,ps'
+let g:Tex_FormatDependency_pdf = 'dvi,pdf'
+let g:Tex_CompileRule_dvi = 'platex -guess-input-enc -synctex=1 -interaction=nonstopmode $*'
+let g:Tex_CompileRule_ps = 'dvips -Ppdf -o $*.ps $*.dvi'
+let g:Tex_CompileRule_pdf = 'dvipdfmx $*.dvi'
+
+syntax enable
 syntax on
+:colorscheme evening
 
-"打开命令行补全菜单
-set wildmenu
-"关闭响铃，闪屏
-set vb t_vb=
-"显示行号
-set nu
-"马上跳到搜索匹配
-set incsearch
-"在查找时,高亮显示全部匹配字符
-set hlsearch
-"光标与顶部和底部始终保持一定行数
-set scrolloff=3
-"根据文件格式载入插件和缩进
-filetype plugin indent on
+set cf  " Enable error files & error jumping.
+set clipboard+=unnamed  " Yanks go on clipboard instead.
+set history=256  " Number of things to remember in history.
+set autowrite  " Writes on make/shell commands
+set ruler  " Ruler on
+set nu  " Line numbers on
+set nowrap  " Line wrapping off
+set timeoutlen=250  " Time to wait after ESC (default causes an annoying delay)
+
+" Formatting (some of these are for coding in C and C++)
+set ts=2  " Tabs are 2 spaces
+set bs=2  " Backspace over everything in insert mode
+set shiftwidth=2  " Tabs under smart indent
+set ambiwidth=double
+set nocp incsearch
+set formatoptions=tcqr
+set cindent
 set autoindent
-
-"打开鼠标功能
-set mouse=a
-
-"指标符宽度
-set tabstop=4
-set shiftwidth=4
-set expandtab
 set smarttab
+set smartindent
+set expandtab
 
-" Display extra whitespace
-" set list listchars=tab:»·,trail:·
+" Visual
+set showmatch  " Show matching brackets.
+set mat=5  " Bracket blinking.
+set list
 
-let mapleader=";"
+" Show $ at end of line and trailing space as ~
+set lcs=tab:\ \ ,eol:$,trail:~,extends:>,precedes:<
+set novisualbell  " No blinking .
+set noerrorbells  " No noise.
+set laststatus=2  " Always show status line.
 
-autocmd FileType make     set noexpandtab
-autocmd FileType python   set noexpandtab
-autocmd FileType eruby  set tabstop=2 shiftwidth=2
-autocmd FileType ruby,rdoc set tabstop=2 shiftwidth=2
-autocmd FileType html set tabstop=2 shiftwidth=2
-autocmd FileType javascript set tabstop=2 shiftwidth=2
-autocmd FileType coffee set tabstop=2 shiftwidth=2
-au! BufRead,BufNewFile *.json setfiletype json
+" gvim specific
+set mousehide  " Hide mouse after chars typed
+if has("mouse")
+ set mouse=a  " Mouse in all modes
+endif
 
-fun! StripTrailingWhitespace()
-    " Don't strip on these filetypes
-    if &ft =~ 'markdown'
-        return
-    endif
-    %s/\s\+$//e
-endfun
+autocmd BufRead,BufNewFile *.erb set filetype=eruby.html
+autocmd User Rails Rnavcommand fabricator spec/fabricators -suffix=_fabricator.rb -default=model() " Fabrication support
 
-autocmd BufWritePre * call StripTrailingWhitespace()
+" Shortcuts
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" plugin settings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" " Press F4 to toggle highlighting on/off, and show current value.
+noremap <F4> :set hlsearch! hlsearch?<CR>
 
-" open/close NERDTree
-map <leader>o :NERDTreeToggle<CR>
-
-" fuzzy_filder
-map <D-i> :FufCoverageFile<CR>
-
-""""" extend copypath start
-function CopyCurrentFilePath()
-    let @*=expand('%:p:h')
-    " copy unnamed register.
-    if g:copypath_copy_to_unnamed_register
-        let @"=expand('%:p:h')
-    endif
-endfunction
-
-command! -nargs=0 CopyCurrentFilePath call CopyCurrentFilePath()
-""""" extend copypath end
-" copypath
-map <silent><leader>c :CopyPath<CR>
-map <silent><leader>f :CopyFileName<CR>
-map <silent><leader>h :CopyCurrentFilePath<CR>
-
-" let g:rubycomplete_buffer_loading = 1
-" let g:rubycomplete_classes_in_global = 1
-" let g:rubycomplete_rails = 1
-
-" nmap <S-f> :CommandT<cr>
-let g:fuf_previewHeight = 0
-
-" theme setting
-" let g:solarized_termcolors=256
-let g:molokai_original = 1
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 快捷键
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" tab
-map J :tabnext<CR>
-map F :tabpre<CR>
-map <C-T> :tabnew<CR>
-
-nmap <F2> :w<cr>
-nmap <F3> :wa<cr>
-nmap <F4> :q<cr>
-nmap <F6> :cp<cr>
-nmap <F7> :cn<cr>
-nmap <F11> gg=G<C-o>
-
-" alias
-cmap cdrb cd ~/Codes/ruby<CR>
-cmap cdkz cd ~/Codes/Rails/kinzin<CR>
-cmap cdgg cd ~/Codes/Rails/gogotree<CR>
-
-" vimrc
-map <silent><leader>rc :tabnew ~/.vimrc<CR>
-map <silent><leader>ss :source ~/.vimrc<CR>
-map <silent><leader>grc :tabnew ~/.gvimrc<CR>
-" source ~/.gvimrc
+map <right> :bn<cr>
+map <left> :bp<cr>
+map <space> :b#<cr>
