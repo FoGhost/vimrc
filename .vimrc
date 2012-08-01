@@ -77,7 +77,7 @@ let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 " Disable auto popup
 " let g:neocomplcache_disable_auto_complete = 1
 
-" Print caching percent in statusline.
+"  Print caching percent in statusline.
 " let g:NeoComplCache_CachingPercentInStatusline = 1
 
 " Define dictionary.
