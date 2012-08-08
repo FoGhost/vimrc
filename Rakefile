@@ -6,6 +6,14 @@ task :deploy do
   system 'vim +BundleInstall +qa'
 end
 
+namespace :pull do
+  desc "Pull vim config file from github and deploy"
+  task :config do
+    system "git pull"
+    system "cp .vimrc .gvimrc ~/"
+  end
+end
+
 namespace :push do
   desc "Push local vim config file to github."
   task :config do
