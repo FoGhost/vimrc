@@ -10,42 +10,54 @@ call vundle#rc()
 
 " " Programming
 Bundle "jQuery"
-Bundle "rails.vim"
+Bundle "tpope/vim-rails"
 Bundle "tpope/vim-haml"
 Bundle "kchmck/vim-coffee-script.git"
+Bundle 'briancollins/vim-jst'
 
 " " Snippets
 Bundle "http://github.com/gmarik/snipmate.vim.git"
+
+" " Instant-Markdown
+Bundle "http://github.com/suan/vim-instant-markdown.git"
+
 "
 " " Syntax highlight
 " Bundle "cucumber.zip"
 " Bundle "Markdown"
 "
 " " Git integration
-" Bundle "git.zip"
 Bundle "fugitive.vim"
 "
 " " (HT|X)ml tool
 " Bundle "ragtag.vim"
 
+" " ColorSchema
+Bundle "http://github.com/altercation/vim-colors-solarized.git"
+
 " " Utility
+" Bundle "git://git.wincent.com/command-t.git"
 Bundle "repeat.vim"
 Bundle "surround.vim"
 Bundle "Align"
+
 Bundle "Shougo/neocomplcache"
 Bundle "Shougo/unite.vim"
 Bundle "Shougo/vimshell"
 let g:vimshell_editor_command='vim'
-Bundle "Shougo/vimfiler"
+" Bundle "Shougo/vimfiler"
 
-Bundle "Shougo/vimproc"
-Bundle "fuenor/qfixhowm"
+" Bundle "Shougo/vimproc"
+" Bundle "fuenor/qfixhowm"
+Bundle "fuenor/qfixgrep"
+
 let qfixmemo_dir           = '~/.dropbox-two/Dropbox/howm'
 let qfixmemo_filename      = '%Y/%m/%Y-%m-%d-%H%M%S.txt'
 let qfixmemo_fileencoding  = 'utf-8'
 let qfixmemo_fileformat    = 'unix'
 let qfixmemo_filetype      = 'qfix_memo'
 
+Bundle "http://github.com/scrooloose/nerdtree.git"
 " " }}} Plugins
 
 filetype plugin indent  on  " Automatically detect file types.
@@ -152,14 +164,15 @@ autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " Enable heavy omni completion.
-if !exists('g:neocomplcache_omni_patterns')
-  let g:neocomplcache_omni_patterns = {}
+if !exists('g:neocomplcache_force_omni_patterns')
+  let g:neocomplcache_force_omni_patterns = {}
 endif
-let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+let g:neocomplcache_force_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+
 " autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
-let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+let g:neocomplcache_force_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplcache_force_omni_patterns.c = '\%(\.\|->\)\h\w*'
+let g:neocomplcache_force_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
 
 inoremap pumvisible() ? neocomplcache#close_popup().“\X\” : “\X\”
 
@@ -176,7 +189,7 @@ map <silent> <m-p> :cp <cr>
 map <silent> <m-n> :cn <cr>
 
 " Key map timeout
-let timeoutlen             = 2000
+let timeoutlen             = 3000
 
 " Change which file opens after executing :Rails command
 let g:rails_default_file   = 'config/database.yml'
@@ -198,7 +211,9 @@ let g:Tex_CompileRule_pdf = 'dvipdfmx $*.dvi'
 
 syntax enable
 syntax on
-:colorscheme evening
+" :colorscheme evening
+set background=dark
+colorscheme solarized
 
 set cf  " Enable error files & error jumping.
 set clipboard=unnamed  " Yanks go on clipboard instead.
@@ -250,3 +265,6 @@ noremap <F4> :set hlsearch! hlsearch?<CR>
 map <right> :bn<cr>
 map <left> :bp<cr>
 map <space> :b#<cr>
+
+" vim-rails autocommand
+autocmd User Rails silent! Rnavcommand worker app/workers -glob=**/* -suffix=

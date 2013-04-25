@@ -8,7 +8,7 @@ set number           " 行番号表示
 set nobackup         " バックアップなし
 set visualbell t_vb= " ビープ音なし
 
-colorscheme wombat  " カラースキーマ
+colorscheme solarized  " カラースキーマ
 
 "set columns=100      " 横幅
 "set lines=35         " 行数
